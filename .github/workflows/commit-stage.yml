@@ -14,13 +14,9 @@ jobs:
       - name: Set up JDK
         uses: actions/setup-java@v3
         with:
-          distribution: open
+          distribution: temurin
           java-version: 17
           cache: maven
-      - name: Build, unit tests and integration tests
-        run: |
-          chmod +x mvnw
-          ./mvnw install
       - name: Code vulnerability scanning
         uses: anchore/scan-action@v3
         id: scan
@@ -33,3 +29,7 @@ jobs:
         if: success() || failure()
         with:
           sarif_file: ${{ steps.scan.outputs.sarif }}
+      - name: Build, unit tests and integration tests
+        run: |
+          chmod +x mvnw
+          ./mvnw install
