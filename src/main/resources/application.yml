@@ -9,3 +9,7 @@ server:
     threads:
       max: 50
       min-spare: 5
+polar:
+  greeting-using-value: Welcome using @Value way!
+  greeting-using-env: Welcome from the Environment!
+  greeting-using-config: Welcome using Configuration Properties
