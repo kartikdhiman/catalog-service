@@ -8,22 +8,14 @@ public class PolarProperties {
 	/**
 	 * A message to welcome user
 	 */
-	private String greetingUsingConfig;
-	private String greetingUsingEnv;
+	private String greeting;
 
-	public String getGreetingUsingConfig() {
-		return greetingUsingConfig;
+	public String getGreeting() {
+		return greeting;
 	}
 
-	public void setGreetingUsingConfig(String greetingUsingConfig) {
-		this.greetingUsingConfig = greetingUsingConfig;
+	public void setGreeting(String greeting) {
+		this.greeting = greeting;
 	}
 
-	public String getGreetingUsingEnv() {
-		return greetingUsingEnv;
-	}
-
-	public void setGreetingUsingEnv(String greetingUsingEnv) {
-		this.greetingUsingEnv = greetingUsingEnv;
-	}
 }

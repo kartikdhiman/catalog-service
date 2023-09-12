@@ -13,21 +13,8 @@ public class HomeController {
 	@Autowired
 	private PolarProperties polarProperties;
 
-	@Value("${polar.greeting-using-value}")
-	private String greetingMsg;
-
-	@Autowired
-	private Environment env;
-
 	@GetMapping("/")
 	public String getGreeting() {
-		return """
-						greeting Using <bold>@Value</bold>: %s</br>
-						greeting using <bold>Environment</bold> : %s</br>
-						greeting using <bold>ConfigurationProperties</bold>: %s""".formatted(
-						greetingMsg,
-						env.getProperty("greeting.greeting-using-env"),
-						polarProperties.getGreetingUsingConfig()
-		);
+		return polarProperties.getGreeting();
 	}
 }
