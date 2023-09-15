@@ -4,7 +4,6 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 
 @ConfigurationProperties(prefix = "polar")
 public class PolarProperties {
-
 	/**
 	 * A message to welcome user
 	 */
@@ -17,5 +16,4 @@ public class PolarProperties {
 	public void setGreeting(String greeting) {
 		this.greeting = greeting;
 	}
-
 }
