@@ -42,9 +42,9 @@ docker run --rm --name catalog-service -p 8080:8080 catalog-service:0.0.1-SNAPSH
 
 ### Container Commands
 
-| Docker Command	              | Description       |
+|         Docker Command	         |  Description      |
 |:-------------------------------:|:-----------------:|
-| `docker stop catalog-service`   | Stop container.   |
+|  `docker stop catalog-service`  |  Stop container.  |
 | `docker start catalog-service`  | Start container.  |
 | `docker remove catalog-service` | Remove container. |
 
@@ -80,27 +80,33 @@ kubectl delete deployment catalog-service
 kubectl delete service catalog-service
 ```
 
+## Create a Network
+```bash
+docker network create catalog-network
+```
+
 ## Running a PostgreSQL Database
 
 Run PostgreSQL as a Docker container
 
 ```bash
-docker run -d \
-    --name polar-postgres \
-    -e POSTGRES_USER=user \
-    -e POSTGRES_PASSWORD=password \
-    -e POSTGRES_DB=polardb_catalog \
-    -p 5432:5432 \
-    postgres:16
+docker run -d --rm \
+--name polar-postgres \
+--net catalog-network \
+-e POSTGRES_USER=user \
+-e POSTGRES_PASSWORD=password \
+-e POSTGRES_DB=polardb_catalog \
+-p 5432:5432 \
+postgres:16
 ```
 
 ### Container Commands
 
-| Docker Command	                   | Description       |
-|:----------------------------------|:-----------------:|
-| `docker stop polar-postgres`      | Stop container.   |
-| `docker start polar-postgres`     | Start container.  |
-| `docker remove polar-postgres`    | Remove container. |
+| Docker Command	                |    Description    |
+|:-------------------------------|:-----------------:|
+| `docker stop polar-postgres`   |  Stop container.  |
+| `docker start polar-postgres`  | Start container.  |
+| `docker remove polar-postgres` | Remove container. |
 
 ### Database Commands
 
@@ -129,4 +135,26 @@ The following query is to fetch all the data stored in the `flyway_schema_histor
 
 ```bash
 select * from flyway_schema_history;
+```
+
+
+### Run catalog-service as a Docker container
+```bash
+docker container run -d --rm \
+--name catalog-service \
+--net catalog-network \
+-p 9001:9001 \
+-e SPRING_DATASOURCE_URL=jdbc:postgresql://polar-postgres:5432/polardb_catalog \
+-e SPRING_PROFILES_ACTIVE=testdata \
+catalog-service
+```
+
+### Stop Containers
+```bash
+docker rm -f catalog-service polar-postgres
+```
+
+### Remove network
+```bash
+docker network rm catalog-network
 ```
