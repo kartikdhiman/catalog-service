@@ -15,18 +15,18 @@ public record Book(
 				@Id
 				Long id,
 
-				@NotBlank(message = "The book ISBN must be defined.")
-				@Pattern(regexp = "^([0-9]{10}|[0-9]{13})$", message = "The ISBN format must be valid.")
+				@NotBlank(message = "{isbn.notBlank}")
+				@Pattern(regexp = "^([0-9]{10}|[0-9]{13})$", message = "{isbn.invalid}")
 				String isbn,
 
-				@NotBlank(message = "The book title must be defined.")
+				@NotBlank(message = "{title.notBlank}")
 				String title,
 
-				@NotBlank(message = "The book author must be defined.")
+				@NotBlank(message = "{author.notBlank}")
 				String author,
 
-				@NotNull(message = "The book price must be defined.")
-				@Positive(message = "The book price must be greater than zero.")
+				@NotNull(message = "{price.notNull}")
+				@Positive(message = "{price.positive}")
 				Double price,
 
 				String publisher,
