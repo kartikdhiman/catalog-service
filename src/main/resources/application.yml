@@ -32,7 +32,7 @@ management:
 
 logging:
   pattern:
-    dateformat: yyyy-MM-dd
+    dateformat: HH:mm:ss.SSS
 
 server:
   port: 9001
