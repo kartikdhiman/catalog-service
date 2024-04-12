@@ -4,14 +4,21 @@ import com.polarbookshop.catalogservice.domain.Book;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.ActiveProfiles;
+import org.springframework.boot.testcontainers.service.connection.ServiceConnection;
 import org.springframework.test.web.reactive.server.WebTestClient;
+import org.testcontainers.containers.PostgreSQLContainer;
+import org.testcontainers.junit.jupiter.Container;
+import org.testcontainers.junit.jupiter.Testcontainers;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-@ActiveProfiles("integration")
+@Testcontainers
 class CatalogServiceApplicationTests {
+	@Container
+	@ServiceConnection
+	static PostgreSQLContainer<?> postgres = new PostgreSQLContainer<>("postgres:16");
+
 	@Autowired
 	private WebTestClient webTestClient;
 
@@ -25,7 +32,8 @@ class CatalogServiceApplicationTests {
 						.bodyValue(bookToCreate)
 						.exchange()
 						.expectStatus().isCreated()
-						.expectBody(Book.class).value(book -> assertThat(book).isNotNull())
+						.expectBody(Book.class)
+						.value(book -> assertThat(book).isNotNull())
 						.returnResult().getResponseBody();
 
 		webTestClient
@@ -33,7 +41,8 @@ class CatalogServiceApplicationTests {
 						.uri("/books/" + bookIsbn)
 						.exchange()
 						.expectStatus().is2xxSuccessful()
-						.expectBody(Book.class).value(actualBook -> {
+						.expectBody(Book.class)
+						.value(actualBook -> {
 							assertThat(actualBook).isNotNull();
 							assertThat(actualBook.isbn()).isEqualTo(expectedBook.isbn());
 						});
@@ -49,7 +58,8 @@ class CatalogServiceApplicationTests {
 						.bodyValue(expectedBook)
 						.exchange()
 						.expectStatus().isCreated()
-						.expectBody(Book.class).value(actualBook -> {
+						.expectBody(Book.class)
+						.value(actualBook -> {
 							assertThat(actualBook).isNotNull();
 							assertThat(actualBook.isbn()).isEqualTo(expectedBook.isbn());
 						});
@@ -65,7 +75,8 @@ class CatalogServiceApplicationTests {
 						.bodyValue(bookToCreate)
 						.exchange()
 						.expectStatus().isCreated()
-						.expectBody(Book.class).value(book -> assertThat(book).isNotNull())
+						.expectBody(Book.class)
+						.value(book -> assertThat(book).isNotNull())
 						.returnResult().getResponseBody();
 		var bookToUpdate = new Book(createdBook.id(), createdBook.isbn(), createdBook.title(), createdBook.author(), 7.95,
 						createdBook.publisher(), createdBook.createdDate(), createdBook.lastModifiedDate(), createdBook.version());
@@ -76,7 +87,8 @@ class CatalogServiceApplicationTests {
 						.bodyValue(bookToUpdate)
 						.exchange()
 						.expectStatus().isOk()
-						.expectBody(Book.class).value(actualBook -> {
+						.expectBody(Book.class)
+						.value(actualBook -> {
 							assertThat(actualBook).isNotNull();
 							assertThat(actualBook.price()).isEqualTo(bookToUpdate.price());
 						});
@@ -104,7 +116,8 @@ class CatalogServiceApplicationTests {
 						.uri("/books/" + bookIsbn)
 						.exchange()
 						.expectStatus().isNotFound()
-						.expectBody(String.class).value(errorMessage ->
+						.expectBody(String.class)
+						.value(errorMessage ->
 										assertThat(errorMessage).isEqualTo("The book with ISBN: %s was not found.".formatted(bookIsbn))
 						);
 	}
