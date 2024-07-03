@@ -21,7 +21,7 @@ by [Thomas Vitale](https://www.thomasvitale.com).
 | Maven Command                    | Description                                   |
 |:---------------------------------|:----------------------------------------------|
 | `./mvnw spring-boot:run`         | Run the application.                          |
-| `./mvnw install`                 | Build the application.                        |
+| `./mvnw package`                 | Build the application.                        |
 | `./mvnw test`                    | Run tests.                                    |
 | `./mvnw spring-boot:repackage`   | Package the application as a JAR.             |
 | `./mvnw spring-boot:build-image` | Package the application as a container image. |
@@ -42,7 +42,7 @@ docker run --rm --name catalog-service -p 8080:8080 catalog-service:0.0.1-SNAPSH
 
 ### Container Commands
 
-|         Docker Command	         |  Description      |
+|         Docker Command          |    Description    |
 |:-------------------------------:|:-----------------:|
 |  `docker stop catalog-service`  |  Stop container.  |
 | `docker start catalog-service`  | Start container.  |
