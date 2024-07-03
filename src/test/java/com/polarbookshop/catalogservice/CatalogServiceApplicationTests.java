@@ -17,10 +17,15 @@ import static org.assertj.core.api.Assertions.assertThat;
 class CatalogServiceApplicationTests {
 	@Container
 	@ServiceConnection
-	static PostgreSQLContainer<?> postgres = new PostgreSQLContainer<>("postgres:16");
+	static PostgreSQLContainer<?> postgres = new PostgreSQLContainer<>("postgres:16-alpine");
 
 	@Autowired
 	private WebTestClient webTestClient;
+
+	@Test
+	void connectionEstablished() {
+		assertThat(postgres.isRunning()).isTrue();
+	}
 
 	@Test
 	void whenGetRequestWithIdThenBookReturned() {
