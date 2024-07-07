@@ -32,22 +32,6 @@ After building the application, you can also run it from the Java CLI:
 java -jar .\target\catalog-service-0.0.1-SNAPSHOT.jar
 ```
 
-## Container tasks
-
-Run Catalog Service as a container
-
-```bash
-docker run --rm --name catalog-service -p 8080:8080 catalog-service:0.0.1-SNAPSHOT
-```
-
-### Container Commands
-
-|         Docker Command          |    Description    |
-|:-------------------------------:|:-----------------:|
-|  `docker stop catalog-service`  |  Stop container.  |
-| `docker start catalog-service`  | Start container.  |
-| `docker remove catalog-service` | Remove container. |
-
 ## Kubernetes tasks
 
 ### Create Deployment for application container
@@ -136,9 +120,13 @@ The following query is to fetch all the data stored in the `flyway_schema_histor
 ```bash
 select * from flyway_schema_history;
 ```
+## Containerizing catalog-service
+| 	Packaging using Spring Boot using | Command                              |
+|------------------------------------|--------------------------------------|
+| Docker File                        | `docker build -t catalog-service .`	 |
+| Cloud Native Buildpacks            | `./mvnw spring-boot:build-image`     |
 
-
-### Run catalog-service as a Docker container
+## Run catalog-service as a Docker container
 ```bash
 docker container run -d --rm \
 --name catalog-service \
@@ -151,7 +139,7 @@ catalog-service
 
 ### Stop Containers
 ```bash
-docker rm -f catalog-service polar-postgres
+docker container rm -f catalog-service polar-postgres
 ```
 
 ### Remove network
