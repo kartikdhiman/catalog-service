@@ -3,7 +3,8 @@ custom_build(
    # Name of the container image
    ref = 'catalog-service',
    # Command to build the container image
-   command = 'mvn spring-boot:build-image',
+   # On Windows, replace $EXPECTED_REF with %EXPECTED_REF%
+   command = 'mvn spring-boot:build-image -Dspring-boot.build-image.imageName=$EXPECTED_REF',
    # Files to watch that trigger a new build
    deps = ['pom.xml', 'src']
 )
